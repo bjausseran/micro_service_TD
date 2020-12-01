@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.demo.coment;
+package com.example.demo.comment;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -33,37 +33,38 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Dave Syer
  */
 @RestController
-class ComentController {
+class CommentController {
 
-	private final ComentRepository coments;
+	private final CommentRepository comments;
 
-	public ComentController(ComentRepository coments) {
-		this.coments = coments;
+	public CommentController(CommentRepository comments) {
+		this.comments = comments;
 	}
 
-	@GetMapping("/coments")
-	public Iterable<Coment> getComents() {
-		return coments.findAll();
+	@GetMapping("/comments")
+	public Iterable<Comment> getComments() {
+		return comments.findAll();
 	}
 
-	@GetMapping("/coments/{id}")
-	public Optional<Coment> getComentById(@PathVariable("id") Integer id) {
-		return coments.findById(id);
+	@GetMapping("/comments/{id}")
+	public Optional<Comment> getCommentById(@PathVariable("id") Integer id) {
+		return comments.findById(id);
 	}
 
-	@PostMapping("/coments")
-	public Coment addComent(@RequestParam("date") LocalDate date, @RequestParam("description") String description,
-			@RequestParam("petId") Integer petId) {
-		Coment coment = new Coment();
-		coment.setDate(date);
-		coment.setDescription(description);
-		coment.setQuoteId(petId);
-		return coments.save(coment);
+	@PostMapping("/comments")
+	public Comment addComment(@RequestParam("date") LocalDate date, @RequestParam("description") String content,
+			@RequestParam("quote_id") Integer quoteId, @RequestParam("author_id") Integer authorId) {
+		Comment comment = new Comment();
+		comment.setDate(date);
+		comment.setContent(content);
+		comment.setQuoteId(quoteId);
+		comment.setAuthorId(authorId);
+		return comments.save(comment);
 	}
 
-	@DeleteMapping("/coments/{id}")
-	public void deleteComent(@PathVariable("id") Integer id) {
-		coments.deleteById(id);
+	@DeleteMapping("/comments/{id}")
+	public void deleteComment(@PathVariable("id") Integer id) {
+		comments.deleteById(id);
 	}
 	
 

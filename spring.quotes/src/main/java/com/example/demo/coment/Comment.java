@@ -26,25 +26,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.demo.base.BaseEntity;
 
-@Entity
-@Table(name = "Coments")
-public class Coment extends BaseEntity {
+public class Comment extends BaseEntity {
 
-	@Column(name = "Coment_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 
 	@NotEmpty
-	@Column(name = "content")
 	private String content;
 
-	@Column(name = "quote_id")
 	private Integer quoteId;
 
 	/**
-	 * Creates a new instance of Coment for the current date
+	 * Creates a new instance of Comment for the current date
 	 */
-	public Coment() {
+	public Comment() {
 		this.date = LocalDate.now();
 	}
 

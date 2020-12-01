@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>spring.coment.service</artifactId>
+	<artifactId>spring.comment.service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring.coment.service</name>
+	<name>spring.comment.service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
