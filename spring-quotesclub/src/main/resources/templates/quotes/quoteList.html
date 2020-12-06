@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'quotes')}">
+
+  <body>
+
+    <h2>Quotes</h2>
+
+    <table id="quotes" class="table table-striped">
+        <thead>
+        <tr>
+            <!-- <th style="width: 150px;">Date</th> -->
+            <th style="width: 120px;">Author</th>
+            <th style="width: 200px">Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr th:each="quote : ${selections}">
+              <!-- <td>
+                  <a th:href="@{/quotes/__${quote.id}__}" th:text="${quote.quote_date}"/></a>
+              </td> -->
+              <td th:text="${quote.author_id}"/>
+              <td th:text="${quote.content}"/>
+          </tr>
+        </tbody>
+    </table>
+
+  </body>
+</html>

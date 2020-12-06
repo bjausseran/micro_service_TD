@@ -1,0 +1,61 @@
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'quotes')}">
+
+<body>
+
+  <h2>
+    <th:block th:if="${comment['new']}">New </th:block>
+    Comment
+  </h2>
+
+  <b>Pet</b>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Quote ID</th>
+        <th>Author ID</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tr>
+      <td th:text="${quote.name}"></td>
+      <td
+        th:text="${#temporals.format(quote.birthDate, 'yyyy-MM-dd')}"></td>
+      <td th:text="${quote.type}"></td>
+      <td
+        th:text="${quote.author?.firstName + ' ' + quote.author?.lastName}"></td>
+    </tr>
+  </table>
+
+  <form th:object="${comment}" class="form-horizontal" method="post">
+    <div class="form-group has-feedback">
+      <input
+        th:replace="~{fragments/inputField :: input ('Date', 'date', 'date')}"  />
+      <input
+        th:replace="~{fragments/inputField :: input ('Description', 'description', 'text')}" />
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="hidden" name="quoteId" th:value="${quote.id}" />
+        <button class="btn btn-default" type="submit">Add Comment</button>
+      </div>
+    </div>
+  </form>
+
+  <br />
+  <b>Previous Comment</b>
+  <table class="table table-striped">
+    <tr>
+      <th>Quote ID</th>
+      <th>Content</th>
+    </tr>
+    <tr th:if="${!comment['new']}" th:each="comment : ${quote.comments}">
+      <!-- <td th:text="${#temporals.format(comment.date, 'yyyy-MM-dd')}"></td> -->
+      <td th:text=" ${comment.quote_id}"></td>
+      <td th:text=" ${comment.description}"></td>
+    </tr>
+  </table>
+
+</body>
+</html>

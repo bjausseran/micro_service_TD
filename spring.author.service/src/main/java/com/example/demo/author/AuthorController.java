@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 /**
  * @author Juergen Hoeller
@@ -38,23 +38,23 @@ class AuthorController {
 
 	private final AuthorRepository authors;
 
-	public AuthorController(AuthorRepository clinicService) {
-		this.authors = clinicService;
+	public AuthorController(AuthorRepository authors) {
+		this.authors = authors;
 	}
 
-	@HystrixCommand
+	//@HystrixCommand
 	@GetMapping("/authors")
 	public Iterable<Author> getAuthors() {
 		return authors.findAll();
 	}
 
-	@HystrixCommand
+	//@HystrixCommand
 	@GetMapping("/authors/{id}")
 	public Optional<Author> getAuthorById(@PathVariable("id") Integer id) {
 		return authors.findById(id);
 	}
 
-	@HystrixCommand
+	//@HystrixCommand
 	@PostMapping("/authors/new")
 	public Author addAuthor(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
 			@RequestParam("city") String city) {
@@ -65,21 +65,21 @@ class AuthorController {
 		return authors.save(author);
 	}
 	
-	@HystrixCommand
+	//@HystrixCommand
 	@PostMapping("/authors/")
 	public Author save(@RequestBody Author author) {
 		return authors.save(author);
 	}
 
 
-	@HystrixCommand
+	//@HystrixCommand
 	@DeleteMapping("/authors/{id}")
 	public void deleteAuthor(@PathVariable("id") Integer id) {
 		authors.deleteById(id);
 	}
 
-	@HystrixCommand
-	@PostMapping("/authors/{authorId}/addQuote")
+	//@HystrixCommand
+	@PostMapping("/authors/{authorId}/addPet")
 	public void addPetToAuthor(@PathVariable("authorId") Integer authorId, @RequestParam("petId") Integer petId) {
 		Optional<Author> authorOpt = authors.findById(authorId);
 		if (authorOpt.isPresent()) {
@@ -90,7 +90,7 @@ class AuthorController {
 		
 	}
 	
-	@HystrixCommand(commandKey = "author-service-find-by-last-name")
+	//@HystrixCommand(commandKey = "author-service-find-by-last-name")
 	@GetMapping("/authors/findByLastName/{lastName}")
 	public Iterable<Author> findAuthorByLastName(@PathVariable("lastName") String lastName) throws InterruptedException {
 		return authors.findByLastName(lastName);

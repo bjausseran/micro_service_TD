@@ -1,0 +1,26 @@
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'authors')}">
+
+<body>
+
+  <h2>Owner</h2>
+  <form th:object="${quote}" class="form-horizontal" id="add-author-form" method="post">
+    <div class="form-group has-feedback">
+      <!-- <input
+        th:replace="~{fragments/inputField :: input ('Date', 'quote_date', 'date')}" /> -->
+      <input
+        th:replace="~{fragments/inputField :: input ('Author ID', 'author_id', 'int')}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Content', 'content', 'text')}" />
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button
+          th:with="text=${author['new']} ? 'Add Quote' : 'Update Quote'"
+          class="btn btn-default" type="submit" th:text="${text}">Add
+          Quote</button>
+      </div>
+    </div>
+  </form>
+</body>
+</html>

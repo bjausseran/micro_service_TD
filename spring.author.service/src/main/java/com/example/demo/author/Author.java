@@ -29,7 +29,7 @@ import javax.validation.constraints.NotEmpty;
 import com.example.demo.base.Person;
 
 /**
- * Simple JavaBean domain object representing an author.
+ * Simple JavaBean domain object representing an owner.
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
@@ -40,11 +40,13 @@ import com.example.demo.base.Person;
 @Table(name = "authors")
 public class Author extends Person {
 
+
 	@Column(name = "city")
 	@NotEmpty
 	private String city;
 
-	private HashSet<Integer> quotes;
+	private HashSet<Integer> pets;
+
 
 	public String getCity() {
 		return this.city;
@@ -53,25 +55,25 @@ public class Author extends Person {
 	public void setCity(String city) {
 		this.city = city;
 	}
-
-	protected Set<Integer> getQuotesInternal() {
-		if (this.quotes == null) {
-			this.quotes = new HashSet<>();
+	
+	protected Set<Integer> getPetsInternal() {
+		if (this.pets == null) {
+			this.pets = new HashSet<>();
 		}
-		return this.quotes;
+		return this.pets;
 	}
 
-	protected void setQuotesInternal(Set<Integer> quotes) {
-		this.quotes = new HashSet<>(quotes);
+	protected void setPetsInternal(Set<Integer> pets) {
+		this.pets = new HashSet<>(pets);
 	}
 
 	public List<Integer> getPets() {
-		return new ArrayList<>(getQuotesInternal());
+		return new ArrayList<>(getPetsInternal());
 
 	}
 
-	public void addPet(Integer quoteId) {
-			getQuotesInternal().add(quoteId);
+	public void addPet(Integer petId) {
+			getPetsInternal().add(petId);
 	}
 
 
