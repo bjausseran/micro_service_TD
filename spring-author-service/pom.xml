@@ -20,6 +20,13 @@
 
 	<dependencies>
 	<!--  START PERSONAL ADDED DEPENDENCIES -->
+		<!-- https://mvnrepository.com/artifact/com.netflix.hystrix/hystrix-javanica -->
+	<dependency>
+	    <groupId>com.netflix.hystrix</groupId>
+	    <artifactId>hystrix-javanica</artifactId>
+	    <version>1.4.1</version>
+	</dependency>
+	
 	<!-- https://mvnrepository.com/artifact/com.netflix.netflix-commons/netflix-commons-util -->
 		<dependency>
 		    <groupId>com.netflix.netflix-commons</groupId>
@@ -64,18 +71,23 @@
 			 <artifactId>hibernate-core</artifactId>
 			</dependency>
 		<!-- END PERSONAL ADDED DEPENDENCIES -->
-	<!-- Spring and Spring Boot dependencies -->
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -123,7 +135,9 @@
 			<groupId>org.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
+		
 	</dependencies>
+	
 
 
 	<build>

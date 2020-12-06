@@ -46,7 +46,7 @@ public interface AuthorRepository {
 	 */
 
 	@GetMapping(path = {"/authors/findByLastName/{lastName}"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	Collection<Author> findByLastName(@PathVariable("lastName") String lastName);
+	Collection<Author> findByLastName(@PathVariable("last_name") String lastName);
 
 	@GetMapping(path = {"/authors/{id}"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public Author findById(@PathVariable("id") Integer id);

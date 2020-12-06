@@ -1,0 +1,33 @@
+<html xmlns:th="https://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout (~{::body},'authors')}">
+
+<body>
+
+  <h2>
+    <th:block th:if="${author['new']}">New </th:block>
+    Author
+  </h2>
+  <form th:object="${author}" class="form-horizontal" method="post">
+    <input type="hidden" name="id" th:value="*{id}" />
+    <div class="form-group has-feedback">
+     
+      <input
+        th:replace="~{fragments/inputField :: input ('Firstname', 'firstname', 'text')}" />
+      <input
+        th:replace="~{fragments/inputField :: input ('Lastname', 'lastname', 'text')}" />
+      <input
+        th:replace="~{fragments/selectField :: select ('City', 'city', 'text)}'" />
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button
+          th:with="text=${author['new']} ? 'Add Author' : 'Update Author'"
+          class="btn btn-default" type="submit" th:text="${text}">Add
+          Author</button>
+      </div>
+    </div>
+  </form>
+
+</body>
+
+</html>

@@ -45,7 +45,7 @@ public class Author extends Person {
 	@NotEmpty
 	private String city;
 
-	private HashSet<Integer> pets;
+	private HashSet<Integer> quotes;
 
 
 	public String getCity() {
@@ -56,24 +56,24 @@ public class Author extends Person {
 		this.city = city;
 	}
 	
-	protected Set<Integer> getPetsInternal() {
-		if (this.pets == null) {
-			this.pets = new HashSet<>();
+	protected Set<Integer> getQuotesInternal() {
+		if (this.quotes == null) {
+			this.quotes = new HashSet<>();
 		}
-		return this.pets;
+		return this.quotes;
 	}
 
-	protected void setPetsInternal(Set<Integer> pets) {
-		this.pets = new HashSet<>(pets);
+	protected void setQuotesInternal(Set<Integer> quotes) {
+		this.quotes = new HashSet<>(quotes);
 	}
 
-	public List<Integer> getPets() {
-		return new ArrayList<>(getPetsInternal());
+	public List<Integer> getQuotes() {
+		return new ArrayList<>(getQuotesInternal());
 
 	}
 
-	public void addPet(Integer petId) {
-			getPetsInternal().add(petId);
+	public void addQuote(Integer quoteId) {
+			getQuotesInternal().add(quoteId);
 	}
 
 
