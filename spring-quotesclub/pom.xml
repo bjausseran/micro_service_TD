@@ -31,8 +31,12 @@
 		<nohttp-checkstyle.version>0.0.4.RELEASE</nohttp-checkstyle.version>
 		<spring-format.version>0.0.25</spring-format.version>
 	</properties>
-
 	<dependencies>
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
 		<!-- Spring and Spring Boot dependencies -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -77,6 +81,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
 
 		<!-- caching -->
 		<dependency>

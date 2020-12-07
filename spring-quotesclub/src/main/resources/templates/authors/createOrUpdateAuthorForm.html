@@ -8,15 +8,15 @@
     Author
   </h2>
   <form th:object="${author}" class="form-horizontal" method="post">
-    <input type="hidden" name="id" th:value="*{id}" />
+     <input type="hidden" name="id" th:value="*{id}" />
     <div class="form-group has-feedback">
-     
+
       <input
-        th:replace="~{fragments/inputField :: input ('Firstname', 'firstname', 'text')}" />
+        th:replace="~{fragments/inputField :: input ('Firstname', 'firstName', 'text')}" />
       <input
-        th:replace="~{fragments/inputField :: input ('Lastname', 'lastname', 'text')}" />
+        th:replace="~{fragments/inputField :: input ('Lastname', 'lastName', 'text')}" />
       <input
-        th:replace="~{fragments/selectField :: select ('City', 'city', 'text)}'" />
+        th:replace="~{fragments/inputField :: input ('City', 'city', 'text')}" />
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
@@ -26,7 +26,7 @@
           Author</button>
       </div>
     </div>
-  </form>
+  </form> 
 
 </body>
 

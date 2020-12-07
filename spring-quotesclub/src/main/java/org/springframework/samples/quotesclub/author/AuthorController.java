@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -45,7 +47,6 @@ class AuthorController {
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-
 	@GetMapping("/authors/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Author author = new Author();
@@ -53,14 +54,16 @@ class AuthorController {
 		return VIEWS_AUTHOR_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping("/authors/new")
+	@RequestMapping(value = "/authors/new", method = {RequestMethod.POST})
+	//@PostMapping("/authors/new")
 	public String processCreationForm(@Valid Author author, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_AUTHOR_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			this.authors.save(author);
-			return "redirect:/authors/" + author.getId();
+			//return "redirect:/authors/" + author.getId();
+			return "redirect:/authors/new";
 		}
 	}
 
@@ -69,7 +72,6 @@ class AuthorController {
 		model.put("author", new Author());
 		return "authors/findAuthors";
 	}
-
 	@GetMapping("/authors")
 	public String processFindForm(Author author, BindingResult result, Map<String, Object> model) {
 
@@ -126,12 +128,12 @@ class AuthorController {
 	public ModelAndView showAuthor(@PathVariable("authorId") int authorId) {
 		ModelAndView mav = new ModelAndView("authors/authorDetails");
 		Author author = this.authors.findById(authorId);
-		for (Quote quote : author.getQuotes()) {
-			quoteList.add(quote);
-			quote.setCommentsInternal(comments.findByQuoteId(quote.getId()));
-		}
+//		for (Quote quote : author.getQuotes()) {
+//			quoteList.add(quote);
+//			quote.setCommentsInternal(comments.findByQuoteId(quote.getId()));
+//		}
 		mav.addObject(author);
 		return mav;
 	}
-
+	
 }

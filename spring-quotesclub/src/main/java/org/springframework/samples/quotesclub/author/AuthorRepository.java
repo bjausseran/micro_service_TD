@@ -51,7 +51,7 @@ public interface AuthorRepository {
 	@GetMapping(path = {"/authors/{id}"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public Author findById(@PathVariable("id") Integer id);
 
-	@PostMapping(path = {"/authors/"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = {"/authors/"})
 	Author save(@RequestBody Author author);
 
 }
