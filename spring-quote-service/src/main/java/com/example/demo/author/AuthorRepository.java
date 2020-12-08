@@ -21,8 +21,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Repository class for <code>Author</code> domain objects All method names are compliant
@@ -48,5 +46,5 @@ public interface AuthorRepository extends CrudRepository<Author, Integer> {
 	@Transactional(readOnly = true)
 	Collection<Author> findByLastName(@Param("lastName") String lastName);
 
-	
+
 }

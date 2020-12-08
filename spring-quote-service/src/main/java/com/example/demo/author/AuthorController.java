@@ -81,15 +81,14 @@ class AuthorController {
 
 	@HystrixCommand
 	@PostMapping("/authors/{authorId}/addquote")
-	public String addQuoteToAuthor(@PathVariable("authorId") Integer authorId, @RequestParam("quoteId") Integer quoteId) {
+	public void addQuoteToAuthor(@PathVariable("authorId") Integer authorId, @RequestParam("quoteId") Integer quoteId) {
 		Optional<Author> authorOpt = authors.findById(authorId);
-		Author author = null;
 		if (authorOpt.isPresent()) {
-			author = authorOpt.get();
+			Author author = authorOpt.get();
 			author.addQuote(quoteId);
 			authors.save(author);
 		}
-		return author.getQuotes().toString();
+		
 	}
 	@HystrixCommand
 	@PostMapping("/authors/*/addComment")

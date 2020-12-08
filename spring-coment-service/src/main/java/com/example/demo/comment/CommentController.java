@@ -56,13 +56,14 @@ class CommentController {
 		return comments.findById(id);
 	}
 
-	@PostMapping("/authors/{authorId}/quotes/{quoteId}/comments/new")
+	@PostMapping("/authors/*/quotes/{quoteId}/comments/new")
 	public Comment addComment(@RequestParam("description") String content,
 			@PathVariable("quoteId") Integer quoteId, @RequestParam("authorId") Integer authorId) {
 		Comment comment = new Comment();
 		comment.setContent(content);
 		comment.setQuoteId(quoteId);
 		comment.setAuthorId(authorId);
+		
 		return comments.save(comment);
 	}
 

@@ -38,25 +38,14 @@ public class Quote extends BaseEntity{
 		this.content = content;
 	}
 
-
-
-	protected Set<Integer> getCommentsInternal() {
+	public HashSet<Integer> getComments() {
 		if (this.comments == null) {
 			this.comments = new HashSet<>();
 		}
 		return this.comments;
 	}
 
-	protected void setCommentsInternal(Set<Integer> quotes) {
-		this.comments = new HashSet<>(quotes);
-	}
-
-	public List<Integer> getComments() {
-		return new ArrayList<>(getCommentsInternal());
-
-	}
-
-	public void addComment(Integer commentId) {
-			getCommentsInternal().add(commentId);
+	public void addComment(Integer comment) {
+		getComments().add(comment);
 	}
 }

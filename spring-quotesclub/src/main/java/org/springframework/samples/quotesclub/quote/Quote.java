@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -21,6 +22,7 @@ public class Quote extends BaseEntity{
 
     private String content;
 
+	private Set<Comment> comments;
 
     public Integer getAuthorId() {
         return this.author_id;
@@ -39,8 +41,6 @@ public class Quote extends BaseEntity{
         this.content = content;
     }
 
-    private Collection<Comment> comments;
-
 	protected Collection<Comment> getCommentsInternal() {
 		if (this.comments == null) {
 			this.comments = new HashSet<>();
@@ -48,7 +48,7 @@ public class Quote extends BaseEntity{
 		return this.comments;
 	}
 
-	public void setCommentsInternal(Collection<Comment> collection) {
+	public void setCommentsInternal(Set<Comment> collection) {
 		this.comments = collection;
 	}
 

@@ -1,5 +1,6 @@
 package com.example.demo.quote;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class QuoteController {
 		return quotes.save(quote);
 	}
 	@GetMapping("/quotes")
-	public Iterable<Quote> getAuthors() {
+	public Iterable<Quote> getQuotes() {
 		return quotes.findAll();
 	}
 	
@@ -45,4 +46,9 @@ public class QuoteController {
     public void deleteQuote(@PathVariable("id") Integer id) {
         quotes.deleteById(id);
     }
+
+	@GetMapping(path = {"/authors/{authorId}/quotes"})
+	public Collection<Quote> getAuthorQuotes(@PathVariable("authorId") Integer authorId) {
+		return quotes.findByAuthor(authorId);
+	}
 }

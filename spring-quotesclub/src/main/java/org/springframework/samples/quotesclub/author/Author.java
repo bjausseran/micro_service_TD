@@ -14,6 +14,10 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.quotesclub.base.Person;
 import org.springframework.samples.quotesclub.quote.Quote;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.samples.quotesclub.comment.Comment;
+
 /**
  * Simple JavaBean domain object representing an owner.
  *
@@ -29,7 +33,35 @@ public class Author extends Person {
 
 
 	private Set<Quote> quotes;
+    
+	private HashSet<String> quotesString;
 
+	private Set<Comment> comments;
+    
+	private HashSet<String> commentsString;
+
+	
+
+	public HashSet<String> getCommentsString() {
+		if (this.commentsString == null) {
+			this.commentsString = new HashSet<>();
+		}
+		return this.commentsString;
+	}
+
+	public void addCommentString(String com) {
+		getCommentsString().add(com);
+	}
+	public HashSet<String> getQuotesString() {
+		if (this.quotesString == null) {
+			this.quotesString = new HashSet<>();
+		}
+		return this.quotesString;
+	}
+
+	public void addQuoteString(String quote) {
+		getQuotesString().add(quote);
+	}
 
 	public String getCity() {
 		return this.city;
@@ -56,11 +88,38 @@ public class Author extends Person {
 		return Collections.unmodifiableList(sortedQuotes);
 	}
 
-	public void addQuote(Quote quote) {
+	public Quote addQuote(Quote quote) {
 		if (quote.isNew()) {
 			getQuotesInternal().add(quote);
 		}
 		quote.setAuthorId(this.getId());
+		return quote;
+	}
+	
+	
+	protected Set<Comment> getCommentsInternal() {
+		if (this.comments == null) {
+			this.comments = new HashSet<>();
+		}
+		return this.comments;
+	}
+
+	protected void setCommentsInternal(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Comment> getComments() {
+		List<Comment> sortedComments = new ArrayList<>(getCommentsInternal());
+		PropertyComparator.sort(sortedComments, new MutableSortDefinition("name", true, true));
+		return Collections.unmodifiableList(sortedComments);
+	}
+
+	public void addComment(Comment comment) {
+		if (comment.isNew()) {
+			getCommentsInternal().add(comment);
+		}
+		comment.setAuthorId(this.getId());
+		getCommentsString().add(comment.getContent());
 	}
 
 	/**

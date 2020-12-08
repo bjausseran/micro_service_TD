@@ -19,11 +19,16 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.samples.quotesclub.quote.Quote;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Repository class for <code>Author</code> domain objects All method names are compliant
@@ -55,6 +60,13 @@ public interface AuthorRepository {
 
 	@PostMapping(path = {"/authors/"})
 	Author save(@RequestBody Author author);
+
+	@PostMapping(path = {"/authors/"})
+	Author save(@RequestParam Integer authorId);
+	
+	@GetMapping(path = {"/authors/{authorId}/quotes"})	
+	public Optional<Author> findById2(@PathVariable("authorId") Integer id);
+
 	
 	@GetMapping(path = {"/authors/"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	Collection<Author> findAll();
@@ -62,4 +74,5 @@ public interface AuthorRepository {
 	@DeleteMapping(path = {"/authors/{id}"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public Optional<Author> deleteById(@PathVariable("id") Integer id);
 
+	
 }

@@ -18,11 +18,13 @@ package org.springframework.samples.quotesclub.comment;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.quotesclub.author.Author;
+import org.springframework.samples.quotesclub.author.AuthorRepository;
 import org.springframework.samples.quotesclub.quote.Quote;
 import org.springframework.samples.quotesclub.quote.QuoteRepository;
 import org.springframework.validation.BindingResult;
@@ -51,14 +53,18 @@ class CommentController {
 
 	@Autowired
 	private final CommentRepository comments;
+	
+	@Autowired
+	private final AuthorRepository authors;
 
 	@Autowired
 	private QuoteRepository quotes;
 
 
-	public CommentController(CommentRepository comments, QuoteRepository quotes) {
+	public CommentController(CommentRepository comments, QuoteRepository quotes, AuthorRepository authors) {
 		this.comments = comments;
 		this.quotes = quotes;
+		this.authors = authors;
 	}
 
 	@GetMapping("/comments")
@@ -90,7 +96,7 @@ class CommentController {
 //	}
 
 
-	@PostMapping("/authors/{authorId}/quotes/{quoteId}/comments/new")
+	@PostMapping("/authors/*/quotes/{quoteId}/comments/new")
 	public Comment addComment(@RequestParam("content") String content,
 			@PathVariable("quoteId") Integer quoteId, @RequestParam("authorId") Integer authorId) {
 		Comment comment = new Comment();
