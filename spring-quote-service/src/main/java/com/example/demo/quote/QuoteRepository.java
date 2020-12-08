@@ -1,5 +1,8 @@
 package com.example.demo.quote;
 
-public interface QuoteRepository {
+import org.springframework.data.repository.CrudRepository;
+
+
+public interface QuoteRepository extends CrudRepository<Quote, Integer> {
 
 }

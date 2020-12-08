@@ -55,15 +55,13 @@ class AuthorController {
 	}
 
 	@RequestMapping(value = "/authors/new", method = {RequestMethod.POST})
-	//@PostMapping("/authors/new")
 	public String processCreationForm(@Valid Author author, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_AUTHOR_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			this.authors.save(author);
-			//return "redirect:/authors/" + author.getId();
-			return "redirect:/authors/new";
+			return "redirect:/authors/" + author.getId();
 		}
 	}
 
@@ -128,10 +126,10 @@ class AuthorController {
 	public ModelAndView showAuthor(@PathVariable("authorId") int authorId) {
 		ModelAndView mav = new ModelAndView("authors/authorDetails");
 		Author author = this.authors.findById(authorId);
-//		for (Quote quote : author.getQuotes()) {
-//			quoteList.add(quote);
-//			quote.setCommentsInternal(comments.findByQuoteId(quote.getId()));
-//		}
+		for (Quote quote : author.getQuotes()) {
+			quoteList.add(quote);
+			quote.setCommentsInternal(comments.findByQuoteId(quote.getId()));
+		}
 		mav.addObject(author);
 		return mav;
 	}

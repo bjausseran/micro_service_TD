@@ -65,7 +65,7 @@ class CommentController {
 	 * @return Quote
 	 */
 	@ModelAttribute("comment")
-	public Comment loadQuoteWithComment(@PathVariable("quote_id") int quoteId, Map<String, Object> model) {
+	public Comment loadQuoteWithComment(@PathVariable("quoteId") int quoteId, Map<String, Object> model) {
 		Quote quote = this.quotes.findById(quoteId);
 		quote.setCommentsInternal(this.comments.findByQuoteId(quoteId));
 		model.put("quote", quote);
@@ -75,20 +75,20 @@ class CommentController {
 	}
 
 	// Spring MVC calls method loadQuoteWithComment(...) before initNewCommentForm is called
-	@GetMapping("/owners/*/quotes/{quoteId}/comments/new")
-	public String initNewCommentForm(@PathVariable("quote_id") int quoteId, Map<String, Object> model) {
+	@GetMapping("/authors/*/quotes/{quoteId}/comments/new")
+	public String initNewCommentForm(@PathVariable("quoteId") int quoteId, Map<String, Object> model) {
 		return "quotes/createOrUpdateCommentForm";
 	}
 
 	// Spring MVC calls method loadQuoteWithComment(...) before processNewCommentForm is called
-	@PostMapping("/owners/{ownerId}/quotes/{quote_id}/comments/new")
+	@PostMapping("/authors/{authorId}/quotes/{quoteId}/comments/new")
 	public String processNewCommentForm(@Valid Comment comment, BindingResult result) {
 		if (result.hasErrors()) {
 			return "quotes/createOrUpdateCommentForm";
 		}
 		else {
 			this.comments.save(comment.getDate(), comment.getContent(), comment.getQuoteId());
-			return "redirect:/owners/{ownerId}";
+			return "redirect:/authors/{authorId}";
 		}
 	}
 	
