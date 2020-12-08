@@ -38,11 +38,9 @@ public class Comment extends BaseEntity {
 	@Column(name = "content")
 	private String content;
 
-	@NotEmpty
 	@Column(name = "quote_id")
 	private Integer quoteId;
 
-	@NotEmpty
 	@Column(name = "author_id")
 	private Integer authorId;
 

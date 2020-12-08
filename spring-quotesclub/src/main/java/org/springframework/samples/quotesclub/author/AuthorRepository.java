@@ -16,8 +16,10 @@
 package org.springframework.samples.quotesclub.author;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,9 +51,15 @@ public interface AuthorRepository {
 	Collection<Author> findByLastName(@PathVariable("last_name") String lastName);
 
 	@GetMapping(path = {"/authors/{id}"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public Author findById(@PathVariable("id") Integer id);
+	public Optional<Author> findById(@PathVariable("id") Integer id);
 
 	@PostMapping(path = {"/authors/"})
 	Author save(@RequestBody Author author);
+	
+	@GetMapping(path = {"/authors/"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	Collection<Author> findAll();
+
+	@DeleteMapping(path = {"/authors/{id}"}, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public Optional<Author> deleteById(@PathVariable("id") Integer id);
 
 }

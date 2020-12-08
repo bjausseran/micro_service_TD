@@ -27,10 +27,24 @@ public class Comment extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 
+
+	private Integer authorId;
+	private Integer quoteId;
+
 	@NotEmpty
 	private String content;
 
-	private Integer quoteId;
+	public Integer getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(Integer authorId) {
+		this.authorId = authorId;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 
 	/**
 	 * Creates a new instance of Comment for the current date
@@ -49,10 +63,6 @@ public class Comment extends BaseEntity {
 
 	public String getContent() {
 		return this.content;
-	}
-
-	public void setDescription(String content) {
-		this.content = content;
 	}
 
 	public Integer getQuoteId() {

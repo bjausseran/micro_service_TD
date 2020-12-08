@@ -17,9 +17,6 @@ import org.springframework.samples.quotesclub.base.BaseEntity;
 
 public class Quote extends BaseEntity{
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
-
     private Integer author_id;
 
     private String content;
@@ -40,15 +37,6 @@ public class Quote extends BaseEntity{
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-
-    public LocalDate getDate() {
-        return this.date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     private Collection<Comment> comments;

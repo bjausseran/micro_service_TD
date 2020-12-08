@@ -15,20 +15,29 @@
  */
 package org.springframework.samples.quotesclub.comment;
 
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.quotesclub.author.Author;
 import org.springframework.samples.quotesclub.quote.Quote;
 import org.springframework.samples.quotesclub.quote.QuoteRepository;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+
 
 /**
  * @author Juergen Hoeller
@@ -40,20 +49,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class CommentController {
 
+	@Autowired
 	private final CommentRepository comments;
-	
+
+	@Autowired
 	private QuoteRepository quotes;
-	
+
 
 	public CommentController(CommentRepository comments, QuoteRepository quotes) {
 		this.comments = comments;
 		this.quotes = quotes;
 	}
-	
 
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
+	@GetMapping("/comments")
+	public Iterable<Comment> getComments() {
+		return comments.findAll();
+	}
+
+	@GetMapping("/comments/{id}")
+	public Comment getQuoteById(@PathVariable("id") Integer id) {
+		return comments.findById(id);
 	}
 
 
@@ -64,33 +79,34 @@ class CommentController {
 	 * @param quoteId
 	 * @return Quote
 	 */
-	@ModelAttribute("comment")
-	public Comment loadQuoteWithComment(@PathVariable("quoteId") int quoteId, Map<String, Object> model) {
-		Quote quote = this.quotes.findById(quoteId);
-		quote.setCommentsInternal(this.comments.findByQuoteId(quoteId));
-		model.put("quote", quote);
-		Comment comment = new Comment();
-		quote.addComment(comment);
-		return comment;
-	}
+//	@ModelAttribute("comment")
+//	public Comment loadQuoteWithComment(@PathVariable("quoteId") int quoteId, Map<String, Object> model) {
+//		Quote quote = this.quotes.findById(quoteId);
+//		quote.setCommentsInternal(this.comments.findByQuoteId(quoteId));
+//		model.put("quote", quote);
+//		Comment comment = new Comment();
+//		quote.addComment(comment);
+//		return comment;
+//	}
 
-	// Spring MVC calls method loadQuoteWithComment(...) before initNewCommentForm is called
-	@GetMapping("/authors/*/quotes/{quoteId}/comments/new")
-	public String initNewCommentForm(@PathVariable("quoteId") int quoteId, Map<String, Object> model) {
-		return "quotes/createOrUpdateCommentForm";
-	}
 
-	// Spring MVC calls method loadQuoteWithComment(...) before processNewCommentForm is called
 	@PostMapping("/authors/{authorId}/quotes/{quoteId}/comments/new")
-	public String processNewCommentForm(@Valid Comment comment, BindingResult result) {
-		if (result.hasErrors()) {
-			return "quotes/createOrUpdateCommentForm";
-		}
-		else {
-			this.comments.save(comment.getDate(), comment.getContent(), comment.getQuoteId());
-			return "redirect:/authors/{authorId}";
-		}
+	public Comment addComment(@RequestParam("content") String content,
+			@PathVariable("quoteId") Integer quoteId, @RequestParam("authorId") Integer authorId) {
+		Comment comment = new Comment();
+		comment.setContent(content);
+		comment.setQuoteId(quoteId);
+		comment.setAuthorId(authorId);
+		return comments.save(comment);
 	}
-	
+
+	@PostMapping("/comments/")
+	public Comment save(@RequestBody Comment comment) {
+		return comments.save(comment);
+	}
+	@DeleteMapping("/comments/{id}")
+	public void deleteComment(@PathVariable("id") Integer id) {
+		comments.deleteById(id);
+	}
 
 }

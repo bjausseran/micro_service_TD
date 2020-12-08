@@ -16,7 +16,6 @@ import com.example.demo.base.BaseEntity;
 public class Quote extends BaseEntity{
 
 	@Column(name = "author_id")
-	@NotEmpty
 	private Integer authorId;
 	@Column(name = "content")
 	@NotEmpty

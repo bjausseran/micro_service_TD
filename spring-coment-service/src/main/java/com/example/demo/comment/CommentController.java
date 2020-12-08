@@ -18,12 +18,16 @@ package com.example.demo.comment;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 /**
  * @author Juergen Hoeller
@@ -35,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class CommentController {
 
+	@Autowired
 	private final CommentRepository comments;
 
 	public CommentController(CommentRepository comments) {
@@ -51,17 +56,20 @@ class CommentController {
 		return comments.findById(id);
 	}
 
-	@PostMapping("/comments")
-	public Comment addComment(@RequestParam("date") LocalDate date, @RequestParam("description") String content,
-			@RequestParam("quote_id") Integer quoteId, @RequestParam("author_id") Integer authorId) {
+	@PostMapping("/authors/{authorId}/quotes/{quoteId}/comments/new")
+	public Comment addComment(@RequestParam("description") String content,
+			@PathVariable("quoteId") Integer quoteId, @RequestParam("authorId") Integer authorId) {
 		Comment comment = new Comment();
-		comment.setDate(date);
 		comment.setContent(content);
 		comment.setQuoteId(quoteId);
 		comment.setAuthorId(authorId);
 		return comments.save(comment);
 	}
 
+	@PostMapping("/comments/")
+	public Comment save(@RequestBody Comment comment) {
+		return comments.save(comment);
+	}
 	@DeleteMapping("/comments/{id}")
 	public void deleteComment(@PathVariable("id") Integer id) {
 		comments.deleteById(id);

@@ -1,6 +1,8 @@
 package org.springframework.samples.quotesclub.quote;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -8,17 +10,25 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.stereotype.Controller;
+import org.springframework.samples.quotesclub.quote.Quote;
+import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.validation.BindingResult;
 
-@Controller
-class QuoteController{
-	private static final String VIEWS_QUOTE_CREATE_OR_UPDATE_FORM = "quotes/createOrUpdateQuoteForm";
+import org.springframework.samples.quotesclub.comment.Comment;
 
+@RestController
+class QuoteController{
+	
     private final QuoteRepository quotes;
+	private Collection<Comment> commentList;
 
     public QuoteController(QuoteRepository quotes) {
         this.quotes = quotes;
@@ -33,30 +43,30 @@ class QuoteController{
         return quotes.findAll();
     }
 
-	@GetMapping("/quotes/new/")
-	public String initCreationForm(Map<String, Object> model) {
+
+	@PostMapping("authors/{authorId}/quotes/new")
+	public Quote addQuote(@PathVariable("authorId") Integer authorId, 
+						@RequestParam("content") String content) {
 		Quote quote = new Quote();
-		model.put("quote", quote);
-		return VIEWS_QUOTE_CREATE_OR_UPDATE_FORM;
+		quote.setContent(content);
+		quote.setAuthorId(authorId);
+		return quotes.save(quote);
 	}
-
-
-	@RequestMapping(value = "/quotes/new", method = {RequestMethod.POST})
-	public String processCreationForm(@Valid Quote quote, BindingResult result) {
-		if (result.hasErrors()) {
-			return VIEWS_QUOTE_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			this.quotes.save(quote);
-			//return "redirect:/authors/" + author.getId();
-			return "redirect:/quote/new";
-		}
+	
+	@PostMapping("/quotes/")
+	public Quote save(@RequestBody Quote quote) {
+		return quotes.save(quote);
 	}
 
     @DeleteMapping("/quotes/{id}")
     public void deleteQuote(@PathVariable("id") Integer id) {
         quotes.deleteById(id);
     }
+
+	@GetMapping("/quotes/{id}")
+	public Quote getQuoteById(@PathVariable("id") Integer id) {
+		return quotes.findById(id);
+	}
 
 
 }
